@@ -39,13 +39,13 @@ pipeline{
       }      
     }
     stage('Deploy to Dev'){
-      echo "Deploying to dev environment"
-      /*
+      
+    
       steps{
-        sh 'docker rm -f petclinic || true'
-        sh 'docker run -d --name=petclinic -p 8081:8080 d3athstalker/petclinic'
+        echo "Deploying to dev environment"
+        //sh 'docker rm -f petclinic || true'
+        //sh 'docker run -d --name=petclinic -p 8081:8080 d3athstalker/petclinic'
       }
-      */
     }
   }
 }
