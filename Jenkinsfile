@@ -9,7 +9,7 @@ pipeline{
     stage('Build'){
       steps{
         echo "Building project"
-        sh 'npm install'
+        sh 'npm run build'
       }
     }
     stage('Archive'){
@@ -21,30 +21,27 @@ pipeline{
     stage('Build docker image'){
       steps{
         echo "Building docker image"
-        //script{
-          //dockerImage = docker.build registry + ":$BUILD_NUMBER" 
-        //}
+        script{
+          dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+        }
       }
     }
     stage('Push docker image'){
       steps{
         echo "Pushing docker image"
-        /*
         script{
           docker.withRegistry('',registryCredential) {
             dockerImage.push()
             dockerImage.push('latest')
           }
-        }*/
+        }
       }      
     }
-    stage('Deploy to Dev'){
-      
-    
+    stage('Deploy to Dev'){   
       steps{
         echo "Deploying to dev environment"
-        //sh 'docker rm -f petclinic || true'
-        //sh 'docker run -d --name=petclinic -p 8081:8080 d3athstalker/petclinic'
+        sh 'docker rm -f hackathon || true'
+        sh 'docker run -d --name=hackathon -p 8081:8080 d3athstalker/hackathon'
       }
     }
   }
