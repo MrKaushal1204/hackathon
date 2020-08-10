@@ -35,8 +35,7 @@ pipeline{
             dockerImage.push()
             dockerImage.push('latest')
           }
-        */
-        }
+        }*/
       }      
     }
     stage('Deploy to Dev'){
