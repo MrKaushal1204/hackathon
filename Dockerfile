@@ -1,22 +1,54 @@
-# Docker Image which is used as foundation to create
-# a custom Docker Image with this Dockerfile
+# # Docker Image which is used as foundation to create
+# # a custom Docker Image with this Dockerfile
+# FROM node:latest
+ 
+# # A directory within the virtualized Docker environment
+# # Becomes more relevant when using Docker Compose later
+# WORKDIR /usr/src/app
+ 
+# # Copies package.json and package-lock.json to Docker environment
+# COPY package*.json ./
+ 
+# # Installs all node packages
+# #RUN npm install
+ 
+# # Copies everything over to Docker environment
+# COPY . .
+ 
+# # Uses port which is used by the actual application
+# EXPOSE 8080
+ 
+# # Finally runs the application
+# ENTRYPOINT [ "npm", "start" ]
+
+# Extending image
 FROM node:latest
- 
-# A directory within the virtualized Docker environment
-# Becomes more relevant when using Docker Compose later
+
+# Create app directory
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
- 
-# Copies package.json and package-lock.json to Docker environment
-COPY package*.json ./
- 
-# Installs all node packages
-#RUN npm install
- 
-# Copies everything over to Docker environment
-COPY . .
- 
-# Uses port which is used by the actual application
-EXPOSE 8080
- 
-# Finally runs the application
-ENTRYPOINT [ "npm", "start" ]
+
+# Versions
+RUN npm -v
+RUN node -v
+
+# Install app dependencies
+COPY package*.json /usr/src/app/
+
+RUN npm install
+
+# Bundle app source
+COPY . /usr/src/app
+
+# Port to listener
+EXPOSE 3000
+
+# Environment variables
+ENV NODE_ENV production
+ENV PORT 3000
+ENV PUBLIC_PATH "/"
+
+RUN npm run start:build
+
+# Main command
+CMD [ "npm", "run", "start:server" ]
