@@ -35,7 +35,7 @@ pipeline{
       steps{
         echo "Deploying to dev environment"
         sh 'docker rm -f hackathon || true'
-        sh 'docker run -d --name=hackathon -p 3030:8080 d3athstalker/hackathon'
+        sh 'docker run -d --name=hackathon -p 3030:3000 d3athstalker/hackathon'
         //sh 'npm start'
       }
     }
